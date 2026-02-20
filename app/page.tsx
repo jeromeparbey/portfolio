@@ -63,7 +63,7 @@ const translations = {
     about: {
       title: "À propos de moi",
       quote: "L'architecture logicielle n'est pas seulement du code, c'est l'art de bâtir des fondations solides pour le futur numérique.",
-      text: "Actuellement en Licence 3 d'Architecture Logicielle à l'ESGIS AVEDJI au Togo, je me passionne pour la création de systèmes robustes et scalables. Mon parcours académique allié à ma curiosité technologique me permet d'aborder chaque projet avec une vision structurée et innovante.",
+      text: "Titulaire d’une Licence 3 en Architecture des Logiciels de l’ESGIS au Togo, je possède une solide formation académique complétée par des expériences et formations antérieures en développement logiciel et technologies informatiques. Cette combinaison de savoir-faire et de curiosité technologique me permet d’aborder chaque projet avec une vision structurée, innovante et orientée vers des systèmes robustes et scalables.",
       formation: "Formation",
       location: "Localisation"
     },
@@ -127,7 +127,7 @@ const translations = {
     about: {
       title: "About me",
       quote: "Software architecture is not just code, it's the art of building solid foundations for the digital future.",
-      text: "Currently in my 3rd year of Software Architecture at ESGIS AVEDJI in Togo, I am passionate about creating robust and scalable systems. My academic background combined with technological curiosity allows me to approach each project with a structured and innovative vision.",
+      text: "Holder of a Bachelor's degree in Software Architecture from ESGIS in Togo, I have a solid academic background complemented by previous training and experience in software development and IT technologies. This combination of skills and technological curiosity allows me to approach each project with a structured, innovative vision, focused on building robust and scalable systems.",
       formation: "Education",
       location: "Location"
     },
@@ -303,11 +303,11 @@ export default function Page() {
 
             <div className="flex items-center gap-3">
               {/* Language Switcher */}
-              <button onClick={() => setLang(lang === 'fr' ? 'en' : 'fr')} className="text-xs font-bold px-2 py-1 rounded-full bg-gray-200 dark:bg-gray-800 hover:bg-indigo-600 hover:text-white transition-all">
-                lang {lang === 'fr' ? 'en' : 'fr'}
+              <button onClick={() => setLang(lang === 'fr' ? 'en' : 'fr')} className="text-xs font-bold px-2 py-1 rounded-full bg-blue-1000 dark:bg-gray-800 hover:bg-indigo-600 hover:text-white transition-all">
+                {lang === 'fr' ? 'EN' : 'FR'}
               </button>
               {/* Theme Toggle */}
-              <button onClick={toggleTheme} className="p-2 rounded bg-gray-200 dark:bg-gray-800 hover:text-indigo-500 transition-all">
+              <button onClick={toggleTheme} className="p-2 rounded bg-blue-1000 dark:bg-gray-800 hover:text-indigo-500 transition-all">
                 {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
               </button>
             </div>
@@ -335,10 +335,10 @@ export default function Page() {
             <NavLink href="#projects" onClick={() => setIsMenuOpen(false)}>{t.nav.projects}</NavLink>
             <NavLink href="#contact" onClick={() => setIsMenuOpen(false)}>{t.nav.contact}</NavLink>
             <div className="flex gap-4">
-              <button onClick={() => setLang(lang === 'fr' ? 'en' : 'fr')} className="text-sm font-bold px-4 py-2 rounded bg-gray-200 dark:bg-gray-800">
-                {lang === 'fr' ? 'Switch to English' : 'Passer en Français'}
+              <button onClick={() => setLang(lang === 'fr' ? 'en' : 'fr')} className="text-xs font-bold px-2 py-1 rounded-full bg-blue-1000 dark:bg-gray-800 hover:bg-indigo-600 hover:text-white transition-all">
+                {lang === 'fr' ? 'EN' : 'FR'}
               </button>
-              <button onClick={toggleTheme} className="p-3 rounded-xl bg-gray-200 dark:bg-gray-800">
+              <button onClick={toggleTheme} className="p-2 rounded bg-blue-1000 dark:bg-gray-800 hover:text-indigo-500 transition-all">
                 {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
               </button>
             </div>
@@ -515,7 +515,7 @@ export default function Page() {
             <div className="space-y-6">
               <h2 className="text-3xl md:text-4xl font-bold text-gray-1000 dark:text-white">{t.about.title}</h2>
               <p className="text-gray-600 dark:text-gray-400 leading-relaxed italic border-l-4 border-indigo-600 pl-6 text-xl">
-                "{t.about.quote}"
+                {t.about.quote}
               </p>
               <p className="text-gray-600 dark:text-gray-400 leading-relaxed">
                 {t.about.text}
@@ -654,7 +654,7 @@ export default function Page() {
                     </div>
                     <div>
                       <p className="text-xs uppercase font-bold text-gray-400">Email</p>
-                      <p className="text-lg font-medium">jeromekparbey@example.com</p>
+                      <p className="text-lg font-medium">jeromekparbey@gmail.com</p>
                     </div>
                   </div>
                   <div className="flex items-center gap-4 text-gray-600 dark:text-gray-400 group">
