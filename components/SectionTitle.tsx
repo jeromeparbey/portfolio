@@ -13,7 +13,7 @@ export default function SectionTitle({
   return (
     <div className="mb-12 text-center">
 
-      <h2 className="text-3xl md:text-4xl font-bold text-blue-1000 dark:text-white mb-4">
+<h2 className="text-3xl md:text-4xl font-bold text-zinc-800 dark:text-blue-600 mb-4">
         {children}
       </h2>
 

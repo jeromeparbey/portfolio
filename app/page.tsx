@@ -171,13 +171,73 @@ export default function Page() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [lang, setLang] = useState<'fr'| 'en'>('fr');
+
   const [theme, setTheme] = useState<'dark' | 'light'>(() => {
   if (typeof window !== 'undefined') {
     return (localStorage.getItem('theme') as 'dark' | 'light') || 'dark';
   }
   return 'dark';
 });
+const [formData, setFormData] = useState({
+  name: "",
+  email: "",
+  subject: "",
+  message: ""
+});
 
+const [isSending, setIsSending] = useState(false);
+
+const handleChange = (
+  e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+) => {
+  setFormData({
+    ...formData,
+    [e.target.name]: e.target.value
+  });
+};
+
+const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  e.preventDefault();
+  setIsSending(true);
+
+  const { name, email, subject, message } = formData;
+
+  if (!name || !email || !message) {
+    alert("Veuillez remplir les champs obligatoires.");
+    setIsSending(false);
+    return;
+  }
+
+  const formattedMessage = `
+✨ NOUVELLE DEMANDE DE PROJET ✨
+
+👤 Nom : ${name}
+📧 Email : ${email}
+📌 Sujet : ${subject || "Non précisé"}
+
+💬 Message :
+${message}
+
+---------------------------
+Envoyé depuis votre portfolio
+`;
+
+  const encodedMessage = encodeURIComponent(formattedMessage);
+
+  const whatsappURL = `https://wa.me/22892438582?text=${encodedMessage}`;
+
+  window.open(whatsappURL, "_blank");
+
+  setTimeout(() => {
+    setIsSending(false);
+    setFormData({
+      name: "",
+      email: "",
+      subject: "",
+      message: ""
+    });
+  }, 800);
+};
 
   const t = translations[lang];
   const highlightText =
@@ -244,8 +304,8 @@ export default function Page() {
         ? "Le présent portfolio, conçu avec une architecture modulaire et des performances optimales."
         : "This portfolio, designed with modular architecture and optimal performance.",
       tags: ["Next.js", "Framer Motion", "Tailwind"],
-      link: "#",
-      code: "#"
+      link: "https://parbey.vercel.app",
+      code: "https://github.com/jeromeparbey/portfolio.git"
     }
   ];
 
@@ -288,7 +348,7 @@ export default function Page() {
         <div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
           <div className="flex items-center gap-2">
             <div className="w-10 h-10 bg-indigo-600 rounded-lg flex items-center justify-center font-bold text-xl text-white">J</div>
-            <span className="font-bold text-xl tracking-tighter uppercase">PARBEY<span className="text-indigo-500">.</span></span>
+            <span className="font-bold text-xl tracking-tighter uppercase">PARBEY<span className="text-indigo-500">💻</span></span>
           </div>
 
           {/* Desktop Nav */}
@@ -303,11 +363,11 @@ export default function Page() {
 
             <div className="flex items-center gap-3">
               {/* Language Switcher */}
-              <button onClick={() => setLang(lang === 'fr' ? 'en' : 'fr')} className="text-xs font-bold px-2 py-1 rounded-full bg-blue-1000 dark:bg-gray-800 hover:bg-indigo-600 hover:text-white transition-all">
+              <button onClick={() => setLang(lang === 'fr' ? 'en' : 'fr')} className="text-xs font-bold px-2 py-1 rounded-full bg-blue-1000 dark:bg-indigo-600 hover:bg-indigo-600 hover:text-white transition-all">
                 {lang === 'fr' ? 'EN' : 'FR'}
               </button>
               {/* Theme Toggle */}
-              <button onClick={toggleTheme} className="p-2 rounded bg-blue-1000 dark:bg-gray-800 hover:text-indigo-500 transition-all">
+              <button onClick={toggleTheme} className="p-2 rounded bg-blue-1000 dark:bg-indigo-600 hover:text-indigo-500 transition-all">
                 {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
               </button>
             </div>
@@ -335,10 +395,10 @@ export default function Page() {
             <NavLink href="#projects" onClick={() => setIsMenuOpen(false)}>{t.nav.projects}</NavLink>
             <NavLink href="#contact" onClick={() => setIsMenuOpen(false)}>{t.nav.contact}</NavLink>
             <div className="flex gap-4">
-              <button onClick={() => setLang(lang === 'fr' ? 'en' : 'fr')} className="text-xs font-bold px-2 py-1 rounded-full bg-blue-1000 dark:bg-gray-800 hover:bg-indigo-600 hover:text-white transition-all">
+              <button onClick={() => setLang(lang === 'fr' ? 'en' : 'fr')} className="text-xs font-bold px-2 py-1 rounded-full bg-blue-100 dark:bg-blue-600 hover:bg-indigo-600 hover:text-white transition-all">
                 {lang === 'fr' ? 'EN' : 'FR'}
               </button>
-              <button onClick={toggleTheme} className="p-2 rounded bg-blue-1000 dark:bg-gray-800 hover:text-indigo-500 transition-all">
+              <button onClick={toggleTheme} className="p-2 rounded bg-blue-100 dark:bg-blue-600 hover:text-indigo-500 transition-all">
                 {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
               </button>
             </div>
@@ -358,7 +418,7 @@ export default function Page() {
               <span className="w-2 h-2 rounded-full bg-indigo-500 animate-pulse"></span>
               {t.hero.badge}
             </div>
-            <h1 className="text-5xl md:text-7xl font-extrabold leading-tight mb-6 text-blue-1000 dark:text-white">
+            <h1 className="text-5xl md:text-7xl font-extrabold leading-tight mb-6 text-blue-1000 dark:text-shadow-rose-300">
               
              {t.hero.title.split(highlightText).map((part: string, i: number) => (
   <React.Fragment key={i}>
@@ -671,29 +731,76 @@ export default function Page() {
             </div>
 
             <div className="md:col-span-3">
-              <form className="bg-white dark:bg-gray-900 p-8 rounded-3xl border border-gray-200 dark:border-gray-800 shadow-sm space-y-4">
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="space-y-2">
-                    <label className="text-xs font-bold uppercase text-gray-400">{t.contact.labelName}</label>
-                    <input type="text" className="w-full bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-4 text-gray-900 dark:text-white focus:outline-none focus:border-indigo-500 transition-colors" placeholder={t.contact.placeholderName} />
-                  </div>
-                  <div className="space-y-2">
-                    <label className="text-xs font-bold uppercase text-gray-400">Email</label>
-                    <input type="email" className="w-full bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-4 text-gray-900 dark:text-white focus:outline-none focus:border-indigo-500 transition-colors" placeholder="email@exemple.com" />
-                  </div>
-                </div>
-                <div className="space-y-2">
-                  <label className="text-xs font-bold uppercase text-gray-400">{t.contact.labelSubject}</label>
-                  <input type="text" className="w-full bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-4 text-gray-900 dark:text-white focus:outline-none focus:border-indigo-500 transition-colors" placeholder="Sujet..." />
-                </div>
-                <div className="space-y-2">
-                  <label className="text-xs font-bold uppercase text-gray-400">{t.contact.labelMsg}</label>
-                  <textarea rows={4} className="w-full bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-4 text-gray-900 dark:text-white focus:outline-none focus:border-indigo-500 transition-colors resize-none" placeholder={t.contact.placeholderMsg}></textarea>
-                </div>
-                <button className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-4 rounded-xl transition-all shadow-lg shadow-indigo-600/30 uppercase tracking-widest text-sm">
-                  {t.contact.btn}
-                </button>
-              </form>
+             <form
+  onSubmit={handleSubmit}
+  className="bg-white dark:bg-gray-900 p-8 rounded-3xl border border-gray-200 dark:border-gray-800 shadow-sm space-y-4"
+>
+  <div className="grid grid-cols-2 gap-4">
+    <div className="space-y-2">
+      <label className="text-xs font-bold uppercase text-gray-400">
+        {t.contact.labelName}
+      </label>
+      <input
+        name="name"
+        type="text"
+        value={formData.name}
+        onChange={handleChange}
+        className="w-full bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-4 text-gray-900 dark:text-white focus:outline-none focus:border-indigo-500 transition-colors"
+        placeholder={t.contact.placeholderName}
+      />
+    </div>
+
+    <div className="space-y-2">
+      <label className="text-xs font-bold uppercase text-gray-400">
+        Email
+      </label>
+      <input
+        name="email"
+        type="email"
+        value={formData.email}
+        onChange={handleChange}
+        className="w-full bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-4 text-gray-900 dark:text-white focus:outline-none focus:border-indigo-500 transition-colors"
+        placeholder="email@exemple.com"
+      />
+    </div>
+  </div>
+
+  <div className="space-y-2">
+    <label className="text-xs font-bold uppercase text-gray-400">
+      {t.contact.labelSubject}
+    </label>
+    <input
+      name="subject"
+      type="text"
+      value={formData.subject}
+      onChange={handleChange}
+      className="w-full bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-4 text-gray-900 dark:text-white focus:outline-none focus:border-indigo-500 transition-colors"
+      placeholder="Sujet..."
+    />
+  </div>
+
+  <div className="space-y-2">
+    <label className="text-xs font-bold uppercase text-gray-400">
+      {t.contact.labelMsg}
+    </label>
+    <textarea
+      name="message"
+      rows={4}
+      value={formData.message}
+      onChange={handleChange}
+      className="w-full bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-4 text-gray-900 dark:text-white focus:outline-none focus:border-indigo-500 transition-colors resize-none"
+      placeholder={t.contact.placeholderMsg}
+    ></textarea>
+  </div>
+
+  <button
+    type="submit"
+    disabled={isSending}
+    className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-4 rounded-xl transition-all shadow-lg shadow-indigo-600/30 uppercase tracking-widest text-sm"
+  >
+    {isSending ? "Envoi..." : t.contact.btn}
+  </button>
+</form>
             </div>
           </div>
         </div>
